@@ -25,27 +25,11 @@ class _LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<_LoginWidget> {
   int _currentIndex = 0;
+  bool _isSubmitting = false;
   late TextEditingController nameTF;
   late TextEditingController usernameTF;
   late TextEditingController emailTF;
   late TextEditingController passwordTF;
-
-  // bool get _enableContinueButton {
-  //   final hasError = [
-  //     if (_currentIndex == 1) ...[
-  //       _usernameError,
-  //       _nameError,
-  //     ],
-  //     _emailError,
-  //     _passwordError
-  //   ].map((e) => e != null).reduce((value, element) => value || element);
-  //   return !hasError;
-  // }
-
-  // String? _nameError;
-  // String? _usernameError;
-  // String? _emailError;
-  // String? _passwordError;
 
   @override
   void initState() {
@@ -65,115 +49,80 @@ class _LoginWidgetState extends State<_LoginWidget> {
         appBar: AppBar(
           title: const Text('Welcome to Pollee 👋'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: MaterialSegmentedControl(
-                  selectionIndex: _currentIndex,
-                  selectedColor: Theme.of(context).primaryColor,
-                  unselectedColor: Theme.of(context).cardColor,
-                  borderColor: Theme.of(context).primaryColor,
-                  children: const {
-                    0: Text('Login'),
-                    1: Text('Register'),
-                  },
-                  onSegmentChosen: (index) => setState(() {
-                    _currentIndex = index;
-                  }),
-                ),
-              ),
-              if (_currentIndex == 1) ...[
-                TextField(
-                  controller: nameTF,
-                  decoration: InputDecoration(
-                    hintText: 'Enter name here...',
-                    labelText: 'Name',
-                    // errorText: _nameError,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: MaterialSegmentedControl(
+                    selectionIndex: _currentIndex,
+                    selectedColor: Theme.of(context).primaryColor,
+                    unselectedColor: Theme.of(context).cardColor,
+                    borderColor: Theme.of(context).primaryColor,
+                    children: const {
+                      0: Text('Login'),
+                      1: Text('Register'),
+                    },
+                    onSegmentChosen: (index) => setState(() {
+                      _currentIndex = index;
+                    }),
                   ),
-                  /* onChanged: (value) {
-                    setState(() {
-                      if (value.trim().isEmpty) {
-                        _nameError = 'Required!';
-                      } else {
-                        _nameError = null;
-                      }
-                    });
-                  }, */
+                ),
+                if (_currentIndex == 1) ...[
+                  TextField(
+                    controller: nameTF,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter name here...',
+                      labelText: 'Name',
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: usernameTF,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter username here...',
+                      labelText: 'Username',
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                ],
+                TextField(
+                  controller: emailTF,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter email here...',
+                    labelText: 'Email',
+                  ),
+                  keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 8),
                 TextField(
-                  controller: usernameTF,
-                  decoration: InputDecoration(
-                    hintText: 'Enter username here...',
-                    labelText: 'Username',
-                    // errorText: _usernameError,
+                  controller: passwordTF,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
                   ),
-                  /* onChanged: (value) {
-                    setState(() {
-                      if (value.trim().isEmpty) {
-                        _usernameError = 'Required!';
-                      } else {
-                        _usernameError = null;
-                      }
-                    });
-                  }, */
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 56),
+                if (_isSubmitting)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                else
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_currentIndex == 0) {
+                        signIn();
+                      } else {
+                        signUp();
+                      }
+                    },
+                    child: const Text('Continue'),
+                  ),
               ],
-              TextField(
-                controller: emailTF,
-                decoration: InputDecoration(
-                  hintText: 'Enter email here...',
-                  labelText: 'Email',
-                  // errorText: _emailError,
-                ),
-                keyboardType: TextInputType.emailAddress,
-                /* onChanged: (value) {
-                  setState(() {
-                    if (RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value)) {
-                      _emailError = 'Required!';
-                    } else {
-                      _emailError = null;
-                    }
-                  });
-                }, */
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: passwordTF,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  // errorText: _passwordError,
-                ),
-                /* onChanged: (value) {
-                  setState(() {
-                    if (value.trim().isEmpty) {
-                      _passwordError = 'Required!';
-                    } else {
-                      _passwordError = null;
-                    }
-                  });
-                }, */
-              ),
-              const SizedBox(height: 56),
-              ElevatedButton(
-                onPressed: () {
-                  if (_currentIndex == 0) {
-                    signIn();
-                  } else {
-                    signUp();
-                  }
-                },
-                child: const Text('Continue'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -181,10 +130,16 @@ class _LoginWidgetState extends State<_LoginWidget> {
   }
 
   Future<void> signIn() async {
+    setState(() {
+      _isSubmitting = true;
+    });
     final user = await context.read<AuthRepository>().signIn(
           email: emailTF.text,
           password: passwordTF.text,
         );
+    setState(() {
+      _isSubmitting = false;
+    });
     if (!mounted) {
       return;
     }
@@ -200,5 +155,30 @@ class _LoginWidgetState extends State<_LoginWidget> {
     await Navigator.of(context).pushReplacementNamed(RouteNames.dashboard);
   }
 
-  Future<void> signUp() async {}
+  Future<void> signUp() async {
+    setState(() {
+      _isSubmitting = true;
+    });
+    final isSignedUp = await context.read<AuthRepository>().signUp(
+          email: emailTF.text,
+          password: passwordTF.text,
+          name: nameTF.text,
+          username: usernameTF.text,
+        );
+    setState(() {
+      _isSubmitting = false;
+    });
+    if (!mounted) {
+      return;
+    }
+    if (!isSignedUp) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not sign up! Retry later.'),
+        ),
+      );
+      return;
+    }
+    await signIn();
+  }
 }
