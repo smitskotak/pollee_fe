@@ -194,6 +194,7 @@ class _LoginWidgetState extends State<_LoginWidget> {
           content: Text('Incorrect id or password!'),
         ),
       );
+      return;
     }
     context.read<UserRepository>().user = user;
     await Navigator.of(context).pushReplacementNamed(RouteNames.dashboard);
