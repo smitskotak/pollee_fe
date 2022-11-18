@@ -12,7 +12,7 @@ _$_Poll _$$_PollFromJson(Map<String, dynamic> json) => _$_Poll(
       choices: (json['choices'] as List<dynamic>)
           .map((e) => Choice.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: json['status'] as String,
+      status: json['status'] as String? ?? 'APPROVED',
       expirationDateTime: DateTime.parse(json['expirationDateTime'] as String),
       createdByUsername: json['createdByUsername'] as String,
       selectedChoice: json['selectedChoice'] as String?,

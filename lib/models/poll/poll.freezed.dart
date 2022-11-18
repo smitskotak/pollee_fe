@@ -23,6 +23,7 @@ mixin _$Poll {
   String get id => throw _privateConstructorUsedError;
   String get question => throw _privateConstructorUsedError;
   List<Choice> get choices => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: 'APPROVED')
   String get status => throw _privateConstructorUsedError;
   DateTime get expirationDateTime => throw _privateConstructorUsedError;
   String get createdByUsername => throw _privateConstructorUsedError;
@@ -44,7 +45,7 @@ abstract class $PollCopyWith<$Res> {
       {String id,
       String question,
       List<Choice> choices,
-      String status,
+      @JsonKey(defaultValue: 'APPROVED') String status,
       DateTime expirationDateTime,
       String createdByUsername,
       String? selectedChoice,
@@ -120,7 +121,7 @@ abstract class _$$_PollCopyWith<$Res> implements $PollCopyWith<$Res> {
       {String id,
       String question,
       List<Choice> choices,
-      String status,
+      @JsonKey(defaultValue: 'APPROVED') String status,
       DateTime expirationDateTime,
       String createdByUsername,
       String? selectedChoice,
@@ -189,7 +190,7 @@ class _$_Poll implements _Poll {
       {required this.id,
       required this.question,
       required final List<Choice> choices,
-      required this.status,
+      @JsonKey(defaultValue: 'APPROVED') required this.status,
       required this.expirationDateTime,
       required this.createdByUsername,
       this.selectedChoice,
@@ -210,6 +211,7 @@ class _$_Poll implements _Poll {
   }
 
   @override
+  @JsonKey(defaultValue: 'APPROVED')
   final String status;
   @override
   final DateTime expirationDateTime;
@@ -278,7 +280,7 @@ abstract class _Poll implements Poll {
       {required final String id,
       required final String question,
       required final List<Choice> choices,
-      required final String status,
+      @JsonKey(defaultValue: 'APPROVED') required final String status,
       required final DateTime expirationDateTime,
       required final String createdByUsername,
       final String? selectedChoice,
@@ -293,6 +295,7 @@ abstract class _Poll implements Poll {
   @override
   List<Choice> get choices;
   @override
+  @JsonKey(defaultValue: 'APPROVED')
   String get status;
   @override
   DateTime get expirationDateTime;

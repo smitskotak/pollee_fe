@@ -56,6 +56,18 @@ class _PollsList extends StatelessWidget {
                   const SliverToBoxAdapter(
                     child: _LoadingCard(),
                   ),
+                if (!viewModel.isLoading && viewModel.polls.isEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Center(
+                        child: Text(
+                          'No Polls here...',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                    ),
+                  )
               ],
             ),
           );

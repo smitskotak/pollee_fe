@@ -9,7 +9,7 @@ class Poll with _$Poll {
     required String id,
     required String question,
     required List<Choice> choices,
-    required String status,
+    @JsonKey(defaultValue: 'APPROVED') required String status,
     required DateTime expirationDateTime,
     required String createdByUsername,
     String? selectedChoice,
