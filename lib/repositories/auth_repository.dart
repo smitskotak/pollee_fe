@@ -11,12 +11,44 @@ class AuthRepository {
   final Dio apiClient;
   final UserRepository userRepository;
 
-  Future<User> signIn({
-    required String userid,
+  Future<User?> signIn({
+    required String email,
     required String password,
   }) async {
-    final response = await apiClient.post('/auth/signin');
-    final user = User.fromJson(response.data);
-    return user;
+    try {
+      final response = await apiClient.post(
+        '/auth/signin',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+      final user = User.fromJson(response.data);
+      return user;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  Future<bool> signUp({
+    required String name,
+    required String username,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await apiClient.post(
+        '/auth/signup',
+        data: {
+          'name': name,
+          'username': username,
+          'email': email,
+          'password': password
+        },
+      );
+      return response.data['success'] == true;
+    } catch (_) {
+      return false;
+    }
   }
 }
