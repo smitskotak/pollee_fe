@@ -41,6 +41,14 @@ mixin _$PollsListViewModel on _PollsListViewModel, Store {
     });
   }
 
+  late final _$fetchAsyncAction =
+      AsyncAction('_PollsListViewModel.fetch', context: context);
+
+  @override
+  Future<void> fetch() {
+    return _$fetchAsyncAction.run(() => super.fetch());
+  }
+
   @override
   String toString() {
     return '''

@@ -10,6 +10,9 @@ class Poll with _$Poll {
     required String question,
     required List<String> options,
     required String status,
+    required DateTime expiresOn,
+    String? selectedChoice,
+    @JsonKey(defaultValue: 0) required int votesCount,
   }) = _Poll;
 
   factory Poll.fromJson(Map<String, dynamic> json) => _$PollFromJson(json);

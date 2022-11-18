@@ -24,6 +24,10 @@ mixin _$Poll {
   String get question => throw _privateConstructorUsedError;
   List<String> get options => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
+  DateTime get expiresOn => throw _privateConstructorUsedError;
+  String? get selectedChoice => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: 0)
+  int get votesCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +39,14 @@ abstract class $PollCopyWith<$Res> {
   factory $PollCopyWith(Poll value, $Res Function(Poll) then) =
       _$PollCopyWithImpl<$Res, Poll>;
   @useResult
-  $Res call({String id, String question, List<String> options, String status});
+  $Res call(
+      {String id,
+      String question,
+      List<String> options,
+      String status,
+      DateTime expiresOn,
+      String? selectedChoice,
+      @JsonKey(defaultValue: 0) int votesCount});
 }
 
 /// @nodoc
@@ -55,6 +66,9 @@ class _$PollCopyWithImpl<$Res, $Val extends Poll>
     Object? question = null,
     Object? options = null,
     Object? status = null,
+    Object? expiresOn = null,
+    Object? selectedChoice = freezed,
+    Object? votesCount = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,6 +87,18 @@ class _$PollCopyWithImpl<$Res, $Val extends Poll>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      expiresOn: null == expiresOn
+          ? _value.expiresOn
+          : expiresOn // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      selectedChoice: freezed == selectedChoice
+          ? _value.selectedChoice
+          : selectedChoice // ignore: cast_nullable_to_non_nullable
+              as String?,
+      votesCount: null == votesCount
+          ? _value.votesCount
+          : votesCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -83,7 +109,14 @@ abstract class _$$_PollCopyWith<$Res> implements $PollCopyWith<$Res> {
       __$$_PollCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String question, List<String> options, String status});
+  $Res call(
+      {String id,
+      String question,
+      List<String> options,
+      String status,
+      DateTime expiresOn,
+      String? selectedChoice,
+      @JsonKey(defaultValue: 0) int votesCount});
 }
 
 /// @nodoc
@@ -99,6 +132,9 @@ class __$$_PollCopyWithImpl<$Res> extends _$PollCopyWithImpl<$Res, _$_Poll>
     Object? question = null,
     Object? options = null,
     Object? status = null,
+    Object? expiresOn = null,
+    Object? selectedChoice = freezed,
+    Object? votesCount = null,
   }) {
     return _then(_$_Poll(
       id: null == id
@@ -117,6 +153,18 @@ class __$$_PollCopyWithImpl<$Res> extends _$PollCopyWithImpl<$Res, _$_Poll>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      expiresOn: null == expiresOn
+          ? _value.expiresOn
+          : expiresOn // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      selectedChoice: freezed == selectedChoice
+          ? _value.selectedChoice
+          : selectedChoice // ignore: cast_nullable_to_non_nullable
+              as String?,
+      votesCount: null == votesCount
+          ? _value.votesCount
+          : votesCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -128,7 +176,10 @@ class _$_Poll implements _Poll {
       {required this.id,
       required this.question,
       required final List<String> options,
-      required this.status})
+      required this.status,
+      required this.expiresOn,
+      this.selectedChoice,
+      @JsonKey(defaultValue: 0) required this.votesCount})
       : _options = options;
 
   factory _$_Poll.fromJson(Map<String, dynamic> json) => _$$_PollFromJson(json);
@@ -146,10 +197,17 @@ class _$_Poll implements _Poll {
 
   @override
   final String status;
+  @override
+  final DateTime expiresOn;
+  @override
+  final String? selectedChoice;
+  @override
+  @JsonKey(defaultValue: 0)
+  final int votesCount;
 
   @override
   String toString() {
-    return 'Poll(id: $id, question: $question, options: $options, status: $status)';
+    return 'Poll(id: $id, question: $question, options: $options, status: $status, expiresOn: $expiresOn, selectedChoice: $selectedChoice, votesCount: $votesCount)';
   }
 
   @override
@@ -161,13 +219,26 @@ class _$_Poll implements _Poll {
             (identical(other.question, question) ||
                 other.question == question) &&
             const DeepCollectionEquality().equals(other._options, _options) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.expiresOn, expiresOn) ||
+                other.expiresOn == expiresOn) &&
+            (identical(other.selectedChoice, selectedChoice) ||
+                other.selectedChoice == selectedChoice) &&
+            (identical(other.votesCount, votesCount) ||
+                other.votesCount == votesCount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, question,
-      const DeepCollectionEquality().hash(_options), status);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      question,
+      const DeepCollectionEquality().hash(_options),
+      status,
+      expiresOn,
+      selectedChoice,
+      votesCount);
 
   @JsonKey(ignore: true)
   @override
@@ -188,7 +259,10 @@ abstract class _Poll implements Poll {
       {required final String id,
       required final String question,
       required final List<String> options,
-      required final String status}) = _$_Poll;
+      required final String status,
+      required final DateTime expiresOn,
+      final String? selectedChoice,
+      @JsonKey(defaultValue: 0) required final int votesCount}) = _$_Poll;
 
   factory _Poll.fromJson(Map<String, dynamic> json) = _$_Poll.fromJson;
 
@@ -200,6 +274,13 @@ abstract class _Poll implements Poll {
   List<String> get options;
   @override
   String get status;
+  @override
+  DateTime get expiresOn;
+  @override
+  String? get selectedChoice;
+  @override
+  @JsonKey(defaultValue: 0)
+  int get votesCount;
   @override
   @JsonKey(ignore: true)
   _$$_PollCopyWith<_$_Poll> get copyWith => throw _privateConstructorUsedError;

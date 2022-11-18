@@ -66,6 +66,7 @@ class _CreatePollScaffoldState extends State<_CreatePollScaffold> {
                       ),
                       minLines: 1,
                       maxLines: 3,
+                      maxLength: 140,
                       decoration: InputDecoration(
                         hintText: 'enter poll title here...',
                         labelText: 'Title',
@@ -79,6 +80,7 @@ class _CreatePollScaffoldState extends State<_CreatePollScaffold> {
                             children: [
                               Expanded(
                                 child: TextField(
+                                  maxLength: 40,
                                   onChanged: (val) {
                                     runInAction(
                                       () => viewModel.setOptionValue(
@@ -152,7 +154,7 @@ class _CreatePollScaffoldState extends State<_CreatePollScaffold> {
                       decoration: InputDecoration(
                         hintText:
                             'set date and time when this poll should be closed',
-                        labelText: 'Closing Date',
+                        labelText: 'Expires On',
                         errorText: viewModel.expiresAtError,
                       ),
                     ),

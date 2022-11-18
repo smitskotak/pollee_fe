@@ -24,24 +24,31 @@ class _PollsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.read<PollsListViewModel>();
-    return Scaffold(
-      body: Observer(
+    return SafeArea(
+      bottom: false,
+      child: Observer(
         builder: (context) {
-          return CustomScrollView(
-            slivers: [
-              if (viewModel.polls.isNotEmpty)
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return PollCard(
-                        poll: viewModel.polls[index],
-                      );
-                    },
-                    childCount: viewModel.polls.length,
+          return RefreshIndicator(
+            onRefresh: () => viewModel.fetch(),
+            child: CustomScrollView(
+              slivers: [
+                if (viewModel.polls.isNotEmpty)
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return PollCard(
+                          poll: viewModel.polls[index],
+                        );
+                      },
+                      childCount: viewModel.polls.length,
+                    ),
                   ),
-                ),
-              if (viewModel.isLoading) const _LoadingCard(),
-            ],
+                if (viewModel.isLoading)
+                  const SliverToBoxAdapter(
+                    child: _LoadingCard(),
+                  ),
+              ],
+            ),
           );
         },
       ),
