@@ -9,11 +9,13 @@ class PollsListViewModel = _PollsListViewModel with _$PollsListViewModel;
 abstract class _PollsListViewModel with Store {
   _PollsListViewModel({
     required this.pollsRepository,
+    required this.isManageSection,
   }) {
     fetch();
   }
 
   final PollsRepository pollsRepository;
+  bool isManageSection;
 
   @observable
   ObservableList<Poll> polls = ObservableList.of([]);

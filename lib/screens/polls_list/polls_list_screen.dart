@@ -6,13 +6,19 @@ import 'package:pollee/screens/polls_list/polls_list_view_model.dart';
 import 'package:provider/provider.dart';
 
 class PollsListScreen extends StatelessWidget {
-  const PollsListScreen({super.key});
+  const PollsListScreen({
+    super.key,
+    required this.isManageSection,
+  });
+
+  final bool isManageSection;
 
   @override
   Widget build(BuildContext context) {
     return Provider(
       create: (_) => PollsListViewModel(
         pollsRepository: context.read<PollsRepository>(),
+        isManageSection: isManageSection,
       ),
       child: const _PollsList(),
     );
