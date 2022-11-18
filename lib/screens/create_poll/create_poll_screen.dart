@@ -156,6 +156,13 @@ class _CreatePollScaffoldState extends State<_CreatePollScaffold> {
                         errorText: viewModel.expiresAtError,
                       ),
                     ),
+                    const SizedBox(height: 40),
+                    ElevatedButton(
+                      onPressed: viewModel.isFormValid
+                          ? () => viewModel.createPoll()
+                          : null,
+                      child: const Text('Create'),
+                    ),
                   ],
                 ),
               ),
