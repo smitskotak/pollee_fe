@@ -40,11 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final refresh =
-              await Navigator.of(context).pushNamed(RouteNames.createPoll);
-          if (refresh == true) {
-            // TODO: Refresh
-          }
+          await Navigator.of(context).pushNamed(RouteNames.createPoll);
         },
         child: const Icon(Icons.add),
       ),

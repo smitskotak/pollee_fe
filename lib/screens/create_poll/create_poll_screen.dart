@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pollee/repositories/polls_repository.dart';
+import 'package:pollee/routes.dart';
 import 'package:pollee/screens/create_poll/create_poll_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -172,7 +173,11 @@ class _CreatePollScaffoldState extends State<_CreatePollScaffold> {
                             ? () async {
                                 final created = await viewModel.createPoll();
                                 if (created && mounted) {
-                                  Navigator.of(context).pop(created);
+                                  await Navigator.of(context)
+                                      .pushNamedAndRemoveUntil(
+                                    RouteNames.dashboard,
+                                    (route) => false,
+                                  );
                                 }
                               }
                             : null,
