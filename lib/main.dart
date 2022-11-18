@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: appRoutes,
-      initialRoute: RouteNames.createPoll,
+      initialRoute: RouteNames.login,
     );
   }
 }
