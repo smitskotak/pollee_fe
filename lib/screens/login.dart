@@ -59,9 +59,9 @@ class _LoginWidgetState extends State<_LoginWidget> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: MaterialSegmentedControl(
                     selectionIndex: _currentIndex,
-                    selectedColor: Theme.of(context).primaryColor,
-                    unselectedColor: Theme.of(context).cardColor,
-                    borderColor: Theme.of(context).primaryColor,
+                    selectedColor: Theme.of(context).colorScheme.primary,
+                    unselectedColor: Theme.of(context).colorScheme.background,
+                    borderColor: Theme.of(context).colorScheme.primary,
                     children: const {
                       0: Text('Login'),
                       1: Text('Register'),

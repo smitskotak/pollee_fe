@@ -26,11 +26,11 @@ abstract class _PollsListViewModel with Store {
   @action
   Future<void> fetch() async {
     isLoading = true;
-    try {
-      final pollsList = await pollsRepository.fetchPolls();
+    final pollsList = await pollsRepository.fetchPolls(
+      pendingOnly: isManageSection,
+    );
+    if (pollsList != null) {
       polls = ObservableList.of(pollsList);
-    } catch (err) {
-      print(err);
     }
     isLoading = false;
   }
@@ -40,8 +40,12 @@ abstract class _PollsListViewModel with Store {
     required String option,
   }) async {
     try {
-      await pollsRepository.submitPoll(poll: poll, option: option);
-      await fetch();
+      final updatedPoll =
+          await pollsRepository.submitVote(pollId: poll.id, option: option);
+      if (updatedPoll != null) {
+        final index = polls.indexOf(poll);
+        polls[index] = updatedPoll;
+      }
     } catch (err) {
       print(err);
     }
@@ -50,22 +54,20 @@ abstract class _PollsListViewModel with Store {
   Future<void> approvePoll({
     required Poll poll,
   }) async {
-    try {
-      await pollsRepository.approvePoll(poll: poll);
-      await fetch();
-    } catch (err) {
-      print(err);
-    }
+    await pollsRepository.updatePoll(
+      pollId: poll.id,
+      status: 'APPROVED',
+    );
+    await fetch();
   }
 
   Future<void> rejectPoll({
     required Poll poll,
   }) async {
-    try {
-      await pollsRepository.rejectPoll(poll: poll);
-      await fetch();
-    } catch (err) {
-      print(err);
-    }
+    await pollsRepository.updatePoll(
+      pollId: poll.id,
+      status: 'REJECTED',
+    );
+    await fetch();
   }
 }

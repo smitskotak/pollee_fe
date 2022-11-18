@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:pollee/color_schemes.dart';
 import 'package:pollee/constants.dart';
 import 'package:pollee/repositories/auth_repository.dart';
 import 'package:pollee/repositories/polls_repository.dart';
@@ -38,14 +39,18 @@ class MyApp extends StatelessWidget {
               ),
             );
             dio.interceptors.add(AuthInterceptor(userRepo));
-            return PollsRepository(apiClient: Dio());
+            return PollsRepository(apiClient: dio);
           },
         ),
       ],
       child: MaterialApp(
         title: 'Pollee - Roll & Collect polls',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          colorScheme: lightColorScheme,
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: lightColorScheme,
           useMaterial3: true,
         ),
         routes: appRoutes,

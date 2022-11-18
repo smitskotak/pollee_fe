@@ -39,8 +39,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(RouteNames.createPoll);
+        onPressed: () async {
+          final refresh =
+              await Navigator.of(context).pushNamed(RouteNames.createPoll);
+          if (refresh == true) {
+            // TODO: Refresh
+          }
         },
         child: const Icon(Icons.add),
       ),

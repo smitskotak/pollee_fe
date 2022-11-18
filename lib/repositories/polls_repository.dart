@@ -8,8 +8,47 @@ class PollsRepository {
 
   final Dio apiClient;
 
-  Future<List<Poll>> fetchPolls() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<bool> createPoll({
+    required String question,
+    required List<String> options,
+    required String expiryDate,
+  }) async {
+    try {
+      final response = await apiClient.post(
+        '/polls/createPoll',
+        data: {
+          'question': question,
+          'choices': options,
+          'expirationDateTime': expiryDate,
+        },
+      );
+      return response.data['success'] == true;
+    } catch (err) {
+      print(err);
+      return false;
+    }
+  }
+
+  Future<List<Poll>?> fetchPolls({
+    bool? pendingOnly,
+  }) async {
+    try {
+      final response = await apiClient.post(
+        '/polls/fetchAll',
+        data: FormData.fromMap(
+          {
+            if (pendingOnly ?? false) 'status': 'PENDING',
+          },
+        ),
+      );
+      final list = response.data['content'] as List;
+      final polls = list.map((json) => Poll.fromJson(json)).toList();
+      return polls;
+    } catch (err) {
+      print(err);
+      return null;
+    }
+    /* await Future.delayed(const Duration(seconds: 2));
     return [
       Poll(
         id: '1',
@@ -35,28 +74,44 @@ class PollsRepository {
         expirationDateTime: DateTime(2022, 11, 23),
         totalVotes: 23,
       ),
-    ];
+    ]; */
   }
 
-  Future<void> submitPoll({
-    required Poll poll,
+  Future<Poll?> submitVote({
+    required String pollId,
     required String option,
   }) async {
-    // TODO:
-    await Future.delayed(Duration(seconds: 2));
+    try {
+      final response = await apiClient.post(
+        '/votes/saveVote',
+        data: {
+          'pollId': pollId,
+          'choiceId': option,
+        },
+      );
+      return Poll.fromJson(response.data);
+    } catch (err) {
+      print(err);
+      return null;
+    }
   }
 
-  Future<void> approvePoll({
-    required Poll poll,
+  Future<bool> updatePoll({
+    required String pollId,
+    required String status,
   }) async {
-    // TODO:
-    await Future.delayed(Duration(seconds: 2));
-  }
-
-  Future<void> rejectPoll({
-    required Poll poll,
-  }) async {
-    // TODO:
-    await Future.delayed(Duration(seconds: 2));
+    try {
+      final response = await apiClient.post(
+        '/polls/updatePoll',
+        data: {
+          'pollId': pollId,
+          'status': status,
+        },
+      );
+      return response.data['success'] == true;
+    } catch (err) {
+      print(err);
+      return false;
+    }
   }
 }

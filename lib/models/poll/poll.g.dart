@@ -14,6 +14,7 @@ _$_Poll _$$_PollFromJson(Map<String, dynamic> json) => _$_Poll(
           .toList(),
       status: json['status'] as String,
       expirationDateTime: DateTime.parse(json['expirationDateTime'] as String),
+      createdByUsername: json['createdByUsername'] as String,
       selectedChoice: json['selectedChoice'] as String?,
       totalVotes: json['totalVotes'] as int? ?? 0,
     );
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$_PollToJson(_$_Poll instance) => <String, dynamic>{
       'choices': instance.choices,
       'status': instance.status,
       'expirationDateTime': instance.expirationDateTime.toIso8601String(),
+      'createdByUsername': instance.createdByUsername,
       'selectedChoice': instance.selectedChoice,
       'totalVotes': instance.totalVotes,
     };

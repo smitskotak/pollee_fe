@@ -100,11 +100,27 @@ mixin _$CreatePollViewModel on _CreatePollViewModel, Store {
     });
   }
 
+  late final _$isSubmittingAtom =
+      Atom(name: '_CreatePollViewModel.isSubmitting', context: context);
+
+  @override
+  bool get isSubmitting {
+    _$isSubmittingAtom.reportRead();
+    return super.isSubmitting;
+  }
+
+  @override
+  set isSubmitting(bool value) {
+    _$isSubmittingAtom.reportWrite(value, super.isSubmitting, () {
+      super.isSubmitting = value;
+    });
+  }
+
   late final _$createPollAsyncAction =
       AsyncAction('_CreatePollViewModel.createPoll', context: context);
 
   @override
-  Future<void> createPoll() {
+  Future<bool> createPoll() {
     return _$createPollAsyncAction.run(() => super.createPoll());
   }
 
@@ -150,6 +166,7 @@ mixin _$CreatePollViewModel on _CreatePollViewModel, Store {
 title: ${title},
 options: ${options},
 expiresAt: ${expiresAt},
+isSubmitting: ${isSubmitting},
 titleError: ${titleError},
 optionsErrors: ${optionsErrors},
 canAddNewOption: ${canAddNewOption},

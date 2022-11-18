@@ -1,11 +1,18 @@
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
+import 'package:pollee/repositories/polls_repository.dart';
 
 part 'create_poll_view_model.g.dart';
 
 class CreatePollViewModel = _CreatePollViewModel with _$CreatePollViewModel;
 
 abstract class _CreatePollViewModel with Store {
+  _CreatePollViewModel({
+    required this.pollsRepository,
+  });
+
+  final PollsRepository pollsRepository;
+
   @observable
   String title = '';
 
@@ -69,6 +76,9 @@ abstract class _CreatePollViewModel with Store {
     return true;
   }
 
+  @observable
+  bool isSubmitting = false;
+
   bool showDeleteOptionButton(int position) {
     return position >= 2;
   }
@@ -92,8 +102,15 @@ abstract class _CreatePollViewModel with Store {
   }
 
   @action
-  Future<void> createPoll() async {
-    // TODO: Make API call
+  Future<bool> createPoll() async {
+    isSubmitting = true;
+    final created = await pollsRepository.createPoll(
+      question: title,
+      options: options.map((e) => e.value ?? '').toList(),
+      expiryDate: expiresAt!.toUtc().toIso8601String(),
+    );
+    return created;
+    isSubmitting = false;
   }
 }
 

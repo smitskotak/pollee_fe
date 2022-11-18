@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:pollee/repositories/polls_repository.dart';
 import 'package:pollee/screens/create_poll/create_poll_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,9 @@ class CreatePollScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (_) => CreatePollViewModel(),
+      create: (_) => CreatePollViewModel(
+        pollsRepository: context.read<PollsRepository>(),
+      ),
       child: const _CreatePollScaffold(),
     );
   }
@@ -159,12 +162,22 @@ class _CreatePollScaffoldState extends State<_CreatePollScaffold> {
                       ),
                     ),
                     const SizedBox(height: 40),
-                    ElevatedButton(
-                      onPressed: viewModel.isFormValid
-                          ? () => viewModel.createPoll()
-                          : null,
-                      child: const Text('Create'),
-                    ),
+                    if (viewModel.isSubmitting)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    else
+                      ElevatedButton(
+                        onPressed: viewModel.isFormValid
+                            ? () async {
+                                final created = await viewModel.createPoll();
+                                if (created && mounted) {
+                                  Navigator.of(context).pop(created);
+                                }
+                              }
+                            : null,
+                        child: const Text('Create'),
+                      ),
                   ],
                 ),
               ),

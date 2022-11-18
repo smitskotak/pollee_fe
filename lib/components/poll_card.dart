@@ -44,9 +44,11 @@ class _PollCardState extends State<PollCard> {
     final isUserAdmin = context.read<UserRepository>().isUserAdmin;
     final showApproveOrRejectButton =
         isPollPendingToBeApproved && isUserAdmin && !_isSubmitting;
+    final showPendingApprovalLabel = isPollPendingToBeApproved && !isUserAdmin;
     final showVotesCount = isPollExpired || hasUserVoted;
 
     return Card(
+      color: Theme.of(context).colorScheme.surface,
       margin: const EdgeInsets.symmetric(
         vertical: 8,
         horizontal: 12,
@@ -56,6 +58,11 @@ class _PollCardState extends State<PollCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Text(
+              'Created By: ${widget.poll.createdByUsername}',
+              style: textTheme.bodySmall,
+            ),
+            const SizedBox(height: 8),
             Text(
               widget.poll.question,
               style: textTheme.titleLarge,
@@ -146,11 +153,16 @@ class _PollCardState extends State<PollCard> {
                   ),
                 ],
               ),
+            if (showPendingApprovalLabel) ...[
+              const SizedBox(height: 8),
+              const Text('To be approved by Admin yet.'),
+            ],
+            if (showVotesCount) Text('Votes: ${widget.poll.totalVotes}'),
             const SizedBox(height: 8),
             Text(
               'Expires At: ${DateFormat('dd-MM-yyyy HH:mm').format(widget.poll.expirationDateTime)}',
+              style: Theme.of(context).textTheme.bodySmall,
             ),
-            if (showVotesCount) Text('Votes: ${widget.poll.totalVotes}'),
           ],
         ),
       ),
@@ -212,11 +224,13 @@ class VotedOptionWidget extends StatelessWidget {
         percent: votesPercentages,
         center: Text(
           value,
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.background,
+              ),
         ),
         barRadius: const Radius.circular(12),
-        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-        progressColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        progressColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
     );
   }

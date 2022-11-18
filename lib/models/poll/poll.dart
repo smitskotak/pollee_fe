@@ -11,6 +11,7 @@ class Poll with _$Poll {
     required List<Choice> choices,
     required String status,
     required DateTime expirationDateTime,
+    required String createdByUsername,
     String? selectedChoice,
     @JsonKey(defaultValue: 0) required int totalVotes,
   }) = _Poll;

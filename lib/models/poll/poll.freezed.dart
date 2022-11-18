@@ -25,6 +25,7 @@ mixin _$Poll {
   List<Choice> get choices => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   DateTime get expirationDateTime => throw _privateConstructorUsedError;
+  String get createdByUsername => throw _privateConstructorUsedError;
   String? get selectedChoice => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: 0)
   int get totalVotes => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $PollCopyWith<$Res> {
       List<Choice> choices,
       String status,
       DateTime expirationDateTime,
+      String createdByUsername,
       String? selectedChoice,
       @JsonKey(defaultValue: 0) int totalVotes});
 }
@@ -67,6 +69,7 @@ class _$PollCopyWithImpl<$Res, $Val extends Poll>
     Object? choices = null,
     Object? status = null,
     Object? expirationDateTime = null,
+    Object? createdByUsername = null,
     Object? selectedChoice = freezed,
     Object? totalVotes = null,
   }) {
@@ -91,6 +94,10 @@ class _$PollCopyWithImpl<$Res, $Val extends Poll>
           ? _value.expirationDateTime
           : expirationDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      createdByUsername: null == createdByUsername
+          ? _value.createdByUsername
+          : createdByUsername // ignore: cast_nullable_to_non_nullable
+              as String,
       selectedChoice: freezed == selectedChoice
           ? _value.selectedChoice
           : selectedChoice // ignore: cast_nullable_to_non_nullable
@@ -115,6 +122,7 @@ abstract class _$$_PollCopyWith<$Res> implements $PollCopyWith<$Res> {
       List<Choice> choices,
       String status,
       DateTime expirationDateTime,
+      String createdByUsername,
       String? selectedChoice,
       @JsonKey(defaultValue: 0) int totalVotes});
 }
@@ -133,6 +141,7 @@ class __$$_PollCopyWithImpl<$Res> extends _$PollCopyWithImpl<$Res, _$_Poll>
     Object? choices = null,
     Object? status = null,
     Object? expirationDateTime = null,
+    Object? createdByUsername = null,
     Object? selectedChoice = freezed,
     Object? totalVotes = null,
   }) {
@@ -157,6 +166,10 @@ class __$$_PollCopyWithImpl<$Res> extends _$PollCopyWithImpl<$Res, _$_Poll>
           ? _value.expirationDateTime
           : expirationDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      createdByUsername: null == createdByUsername
+          ? _value.createdByUsername
+          : createdByUsername // ignore: cast_nullable_to_non_nullable
+              as String,
       selectedChoice: freezed == selectedChoice
           ? _value.selectedChoice
           : selectedChoice // ignore: cast_nullable_to_non_nullable
@@ -178,6 +191,7 @@ class _$_Poll implements _Poll {
       required final List<Choice> choices,
       required this.status,
       required this.expirationDateTime,
+      required this.createdByUsername,
       this.selectedChoice,
       @JsonKey(defaultValue: 0) required this.totalVotes})
       : _choices = choices;
@@ -200,6 +214,8 @@ class _$_Poll implements _Poll {
   @override
   final DateTime expirationDateTime;
   @override
+  final String createdByUsername;
+  @override
   final String? selectedChoice;
   @override
   @JsonKey(defaultValue: 0)
@@ -207,7 +223,7 @@ class _$_Poll implements _Poll {
 
   @override
   String toString() {
-    return 'Poll(id: $id, question: $question, choices: $choices, status: $status, expirationDateTime: $expirationDateTime, selectedChoice: $selectedChoice, totalVotes: $totalVotes)';
+    return 'Poll(id: $id, question: $question, choices: $choices, status: $status, expirationDateTime: $expirationDateTime, createdByUsername: $createdByUsername, selectedChoice: $selectedChoice, totalVotes: $totalVotes)';
   }
 
   @override
@@ -222,6 +238,8 @@ class _$_Poll implements _Poll {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.expirationDateTime, expirationDateTime) ||
                 other.expirationDateTime == expirationDateTime) &&
+            (identical(other.createdByUsername, createdByUsername) ||
+                other.createdByUsername == createdByUsername) &&
             (identical(other.selectedChoice, selectedChoice) ||
                 other.selectedChoice == selectedChoice) &&
             (identical(other.totalVotes, totalVotes) ||
@@ -237,6 +255,7 @@ class _$_Poll implements _Poll {
       const DeepCollectionEquality().hash(_choices),
       status,
       expirationDateTime,
+      createdByUsername,
       selectedChoice,
       totalVotes);
 
@@ -261,6 +280,7 @@ abstract class _Poll implements Poll {
       required final List<Choice> choices,
       required final String status,
       required final DateTime expirationDateTime,
+      required final String createdByUsername,
       final String? selectedChoice,
       @JsonKey(defaultValue: 0) required final int totalVotes}) = _$_Poll;
 
@@ -276,6 +296,8 @@ abstract class _Poll implements Poll {
   String get status;
   @override
   DateTime get expirationDateTime;
+  @override
+  String get createdByUsername;
   @override
   String? get selectedChoice;
   @override
