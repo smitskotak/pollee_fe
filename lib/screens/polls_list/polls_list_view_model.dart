@@ -57,26 +57,26 @@ Future<List<Poll>> getPolls() async {
     Poll(
       id: '1',
       question: 'What is weekend look like?',
-      options: [
-        'Movies',
-        'Sports',
+      choices: [
+        Choice(text: 'Movies', voteCount: 18),
+        Choice(text: 'Sports', voteCount: 2),
       ],
       status: 'PUBLISHED',
-      expiresOn: DateTime(2022, 11, 23),
+      expirationDateTime: DateTime(2022, 11, 23),
       selectedChoice: 'Movies',
-      votesCount: 20,
+      totalVotes: 20,
     ),
     Poll(
       id: '2',
       question: 'What is weekend look like?',
-      options: [
-        'Movies',
-        'Sports',
-        'Leisure',
+      choices: [
+        Choice(text: 'Movies', voteCount: 8),
+        Choice(text: 'Sports', voteCount: 2),
+        Choice(text: 'Leisure', voteCount: 2),
       ],
-      status: 'PENDING',
-      expiresOn: DateTime(2022, 11, 27),
-      votesCount: 23,
+      status: 'PUBLISHED',
+      expirationDateTime: DateTime(2022, 11, 23),
+      totalVotes: 23,
     ),
   ];
 }

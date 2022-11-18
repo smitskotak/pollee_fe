@@ -20,6 +20,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ? const PollsListScreen()
           : const ManagePollsListScreen(),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentTab,
         onTap: (tabIndex) => setState(() => _currentTab = tabIndex),
         items: const [
           BottomNavigationBarItem(

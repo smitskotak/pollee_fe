@@ -9,20 +9,31 @@ part of 'poll.dart';
 _$_Poll _$$_PollFromJson(Map<String, dynamic> json) => _$_Poll(
       id: json['id'] as String,
       question: json['question'] as String,
-      options:
-          (json['options'] as List<dynamic>).map((e) => e as String).toList(),
+      choices: (json['choices'] as List<dynamic>)
+          .map((e) => Choice.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: json['status'] as String,
-      expiresOn: DateTime.parse(json['expiresOn'] as String),
+      expirationDateTime: DateTime.parse(json['expirationDateTime'] as String),
       selectedChoice: json['selectedChoice'] as String?,
-      votesCount: json['votesCount'] as int? ?? 0,
+      totalVotes: json['totalVotes'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$_PollToJson(_$_Poll instance) => <String, dynamic>{
       'id': instance.id,
       'question': instance.question,
-      'options': instance.options,
+      'choices': instance.choices,
       'status': instance.status,
-      'expiresOn': instance.expiresOn.toIso8601String(),
+      'expirationDateTime': instance.expirationDateTime.toIso8601String(),
       'selectedChoice': instance.selectedChoice,
-      'votesCount': instance.votesCount,
+      'totalVotes': instance.totalVotes,
+    };
+
+_$_Choice _$$_ChoiceFromJson(Map<String, dynamic> json) => _$_Choice(
+      text: json['text'] as String,
+      voteCount: json['voteCount'] as int? ?? 0,
+    );
+
+Map<String, dynamic> _$$_ChoiceToJson(_$_Choice instance) => <String, dynamic>{
+      'text': instance.text,
+      'voteCount': instance.voteCount,
     };

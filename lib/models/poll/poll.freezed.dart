@@ -22,12 +22,12 @@ Poll _$PollFromJson(Map<String, dynamic> json) {
 mixin _$Poll {
   String get id => throw _privateConstructorUsedError;
   String get question => throw _privateConstructorUsedError;
-  List<String> get options => throw _privateConstructorUsedError;
+  List<Choice> get choices => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
-  DateTime get expiresOn => throw _privateConstructorUsedError;
+  DateTime get expirationDateTime => throw _privateConstructorUsedError;
   String? get selectedChoice => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: 0)
-  int get votesCount => throw _privateConstructorUsedError;
+  int get totalVotes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,11 +42,11 @@ abstract class $PollCopyWith<$Res> {
   $Res call(
       {String id,
       String question,
-      List<String> options,
+      List<Choice> choices,
       String status,
-      DateTime expiresOn,
+      DateTime expirationDateTime,
       String? selectedChoice,
-      @JsonKey(defaultValue: 0) int votesCount});
+      @JsonKey(defaultValue: 0) int totalVotes});
 }
 
 /// @nodoc
@@ -64,11 +64,11 @@ class _$PollCopyWithImpl<$Res, $Val extends Poll>
   $Res call({
     Object? id = null,
     Object? question = null,
-    Object? options = null,
+    Object? choices = null,
     Object? status = null,
-    Object? expiresOn = null,
+    Object? expirationDateTime = null,
     Object? selectedChoice = freezed,
-    Object? votesCount = null,
+    Object? totalVotes = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -79,25 +79,25 @@ class _$PollCopyWithImpl<$Res, $Val extends Poll>
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
               as String,
-      options: null == options
-          ? _value.options
-          : options // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      choices: null == choices
+          ? _value.choices
+          : choices // ignore: cast_nullable_to_non_nullable
+              as List<Choice>,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      expiresOn: null == expiresOn
-          ? _value.expiresOn
-          : expiresOn // ignore: cast_nullable_to_non_nullable
+      expirationDateTime: null == expirationDateTime
+          ? _value.expirationDateTime
+          : expirationDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
       selectedChoice: freezed == selectedChoice
           ? _value.selectedChoice
           : selectedChoice // ignore: cast_nullable_to_non_nullable
               as String?,
-      votesCount: null == votesCount
-          ? _value.votesCount
-          : votesCount // ignore: cast_nullable_to_non_nullable
+      totalVotes: null == totalVotes
+          ? _value.totalVotes
+          : totalVotes // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -112,11 +112,11 @@ abstract class _$$_PollCopyWith<$Res> implements $PollCopyWith<$Res> {
   $Res call(
       {String id,
       String question,
-      List<String> options,
+      List<Choice> choices,
       String status,
-      DateTime expiresOn,
+      DateTime expirationDateTime,
       String? selectedChoice,
-      @JsonKey(defaultValue: 0) int votesCount});
+      @JsonKey(defaultValue: 0) int totalVotes});
 }
 
 /// @nodoc
@@ -130,11 +130,11 @@ class __$$_PollCopyWithImpl<$Res> extends _$PollCopyWithImpl<$Res, _$_Poll>
   $Res call({
     Object? id = null,
     Object? question = null,
-    Object? options = null,
+    Object? choices = null,
     Object? status = null,
-    Object? expiresOn = null,
+    Object? expirationDateTime = null,
     Object? selectedChoice = freezed,
-    Object? votesCount = null,
+    Object? totalVotes = null,
   }) {
     return _then(_$_Poll(
       id: null == id
@@ -145,25 +145,25 @@ class __$$_PollCopyWithImpl<$Res> extends _$PollCopyWithImpl<$Res, _$_Poll>
           ? _value.question
           : question // ignore: cast_nullable_to_non_nullable
               as String,
-      options: null == options
-          ? _value._options
-          : options // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      choices: null == choices
+          ? _value._choices
+          : choices // ignore: cast_nullable_to_non_nullable
+              as List<Choice>,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      expiresOn: null == expiresOn
-          ? _value.expiresOn
-          : expiresOn // ignore: cast_nullable_to_non_nullable
+      expirationDateTime: null == expirationDateTime
+          ? _value.expirationDateTime
+          : expirationDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
       selectedChoice: freezed == selectedChoice
           ? _value.selectedChoice
           : selectedChoice // ignore: cast_nullable_to_non_nullable
               as String?,
-      votesCount: null == votesCount
-          ? _value.votesCount
-          : votesCount // ignore: cast_nullable_to_non_nullable
+      totalVotes: null == totalVotes
+          ? _value.totalVotes
+          : totalVotes // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -175,12 +175,12 @@ class _$_Poll implements _Poll {
   const _$_Poll(
       {required this.id,
       required this.question,
-      required final List<String> options,
+      required final List<Choice> choices,
       required this.status,
-      required this.expiresOn,
+      required this.expirationDateTime,
       this.selectedChoice,
-      @JsonKey(defaultValue: 0) required this.votesCount})
-      : _options = options;
+      @JsonKey(defaultValue: 0) required this.totalVotes})
+      : _choices = choices;
 
   factory _$_Poll.fromJson(Map<String, dynamic> json) => _$$_PollFromJson(json);
 
@@ -188,26 +188,26 @@ class _$_Poll implements _Poll {
   final String id;
   @override
   final String question;
-  final List<String> _options;
+  final List<Choice> _choices;
   @override
-  List<String> get options {
+  List<Choice> get choices {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_options);
+    return EqualUnmodifiableListView(_choices);
   }
 
   @override
   final String status;
   @override
-  final DateTime expiresOn;
+  final DateTime expirationDateTime;
   @override
   final String? selectedChoice;
   @override
   @JsonKey(defaultValue: 0)
-  final int votesCount;
+  final int totalVotes;
 
   @override
   String toString() {
-    return 'Poll(id: $id, question: $question, options: $options, status: $status, expiresOn: $expiresOn, selectedChoice: $selectedChoice, votesCount: $votesCount)';
+    return 'Poll(id: $id, question: $question, choices: $choices, status: $status, expirationDateTime: $expirationDateTime, selectedChoice: $selectedChoice, totalVotes: $totalVotes)';
   }
 
   @override
@@ -218,14 +218,14 @@ class _$_Poll implements _Poll {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.question, question) ||
                 other.question == question) &&
-            const DeepCollectionEquality().equals(other._options, _options) &&
+            const DeepCollectionEquality().equals(other._choices, _choices) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.expiresOn, expiresOn) ||
-                other.expiresOn == expiresOn) &&
+            (identical(other.expirationDateTime, expirationDateTime) ||
+                other.expirationDateTime == expirationDateTime) &&
             (identical(other.selectedChoice, selectedChoice) ||
                 other.selectedChoice == selectedChoice) &&
-            (identical(other.votesCount, votesCount) ||
-                other.votesCount == votesCount));
+            (identical(other.totalVotes, totalVotes) ||
+                other.totalVotes == totalVotes));
   }
 
   @JsonKey(ignore: true)
@@ -234,11 +234,11 @@ class _$_Poll implements _Poll {
       runtimeType,
       id,
       question,
-      const DeepCollectionEquality().hash(_options),
+      const DeepCollectionEquality().hash(_choices),
       status,
-      expiresOn,
+      expirationDateTime,
       selectedChoice,
-      votesCount);
+      totalVotes);
 
   @JsonKey(ignore: true)
   @override
@@ -258,11 +258,11 @@ abstract class _Poll implements Poll {
   const factory _Poll(
       {required final String id,
       required final String question,
-      required final List<String> options,
+      required final List<Choice> choices,
       required final String status,
-      required final DateTime expiresOn,
+      required final DateTime expirationDateTime,
       final String? selectedChoice,
-      @JsonKey(defaultValue: 0) required final int votesCount}) = _$_Poll;
+      @JsonKey(defaultValue: 0) required final int totalVotes}) = _$_Poll;
 
   factory _Poll.fromJson(Map<String, dynamic> json) = _$_Poll.fromJson;
 
@@ -271,17 +271,170 @@ abstract class _Poll implements Poll {
   @override
   String get question;
   @override
-  List<String> get options;
+  List<Choice> get choices;
   @override
   String get status;
   @override
-  DateTime get expiresOn;
+  DateTime get expirationDateTime;
   @override
   String? get selectedChoice;
   @override
   @JsonKey(defaultValue: 0)
-  int get votesCount;
+  int get totalVotes;
   @override
   @JsonKey(ignore: true)
   _$$_PollCopyWith<_$_Poll> get copyWith => throw _privateConstructorUsedError;
+}
+
+Choice _$ChoiceFromJson(Map<String, dynamic> json) {
+  return _Choice.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Choice {
+  String get text => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: 0)
+  int get voteCount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChoiceCopyWith<Choice> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChoiceCopyWith<$Res> {
+  factory $ChoiceCopyWith(Choice value, $Res Function(Choice) then) =
+      _$ChoiceCopyWithImpl<$Res, Choice>;
+  @useResult
+  $Res call({String text, @JsonKey(defaultValue: 0) int voteCount});
+}
+
+/// @nodoc
+class _$ChoiceCopyWithImpl<$Res, $Val extends Choice>
+    implements $ChoiceCopyWith<$Res> {
+  _$ChoiceCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? text = null,
+    Object? voteCount = null,
+  }) {
+    return _then(_value.copyWith(
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      voteCount: null == voteCount
+          ? _value.voteCount
+          : voteCount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_ChoiceCopyWith<$Res> implements $ChoiceCopyWith<$Res> {
+  factory _$$_ChoiceCopyWith(_$_Choice value, $Res Function(_$_Choice) then) =
+      __$$_ChoiceCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String text, @JsonKey(defaultValue: 0) int voteCount});
+}
+
+/// @nodoc
+class __$$_ChoiceCopyWithImpl<$Res>
+    extends _$ChoiceCopyWithImpl<$Res, _$_Choice>
+    implements _$$_ChoiceCopyWith<$Res> {
+  __$$_ChoiceCopyWithImpl(_$_Choice _value, $Res Function(_$_Choice) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? text = null,
+    Object? voteCount = null,
+  }) {
+    return _then(_$_Choice(
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      voteCount: null == voteCount
+          ? _value.voteCount
+          : voteCount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Choice implements _Choice {
+  const _$_Choice(
+      {required this.text, @JsonKey(defaultValue: 0) required this.voteCount});
+
+  factory _$_Choice.fromJson(Map<String, dynamic> json) =>
+      _$$_ChoiceFromJson(json);
+
+  @override
+  final String text;
+  @override
+  @JsonKey(defaultValue: 0)
+  final int voteCount;
+
+  @override
+  String toString() {
+    return 'Choice(text: $text, voteCount: $voteCount)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Choice &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.voteCount, voteCount) ||
+                other.voteCount == voteCount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, text, voteCount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ChoiceCopyWith<_$_Choice> get copyWith =>
+      __$$_ChoiceCopyWithImpl<_$_Choice>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ChoiceToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Choice implements Choice {
+  const factory _Choice(
+      {required final String text,
+      @JsonKey(defaultValue: 0) required final int voteCount}) = _$_Choice;
+
+  factory _Choice.fromJson(Map<String, dynamic> json) = _$_Choice.fromJson;
+
+  @override
+  String get text;
+  @override
+  @JsonKey(defaultValue: 0)
+  int get voteCount;
+  @override
+  @JsonKey(ignore: true)
+  _$$_ChoiceCopyWith<_$_Choice> get copyWith =>
+      throw _privateConstructorUsedError;
 }

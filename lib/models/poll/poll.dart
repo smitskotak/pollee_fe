@@ -8,12 +8,22 @@ class Poll with _$Poll {
   const factory Poll({
     required String id,
     required String question,
-    required List<String> options,
+    required List<Choice> choices,
     required String status,
-    required DateTime expiresOn,
+    required DateTime expirationDateTime,
     String? selectedChoice,
-    @JsonKey(defaultValue: 0) required int votesCount,
+    @JsonKey(defaultValue: 0) required int totalVotes,
   }) = _Poll;
 
   factory Poll.fromJson(Map<String, dynamic> json) => _$PollFromJson(json);
+}
+
+@freezed
+class Choice with _$Choice {
+  const factory Choice({
+    required String text,
+    @JsonKey(defaultValue: 0) required int voteCount,
+  }) = _Choice;
+
+  factory Choice.fromJson(Map<String, dynamic> json) => _$ChoiceFromJson(json);
 }

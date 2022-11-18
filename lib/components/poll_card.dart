@@ -32,7 +32,8 @@ class _PollCardState extends State<PollCard> {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    final isPollExpired = widget.poll.expiresOn.isBefore(DateTime.now());
+    final isPollExpired =
+        widget.poll.expirationDateTime.isBefore(DateTime.now());
     final hasUserVoted = widget.poll.selectedChoice != null;
     final isPollPendingToBeApproved = widget.poll.status == 'PENDING';
     final showSubmitButton = !isPollExpired &&
@@ -58,27 +59,26 @@ class _PollCardState extends State<PollCard> {
               style: textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
-            ...widget.poll.options.map(
+            ...widget.poll.choices.map(
               (e) {
                 if (hasUserVoted) {
                   return VotedOptionWidget(
-                    value: e,
-                    // TODO: consider choice vote count
-                    votesPercentages: 2 / widget.poll.votesCount,
+                    value: e.text,
+                    votesPercentages: e.voteCount / widget.poll.totalVotes,
                   );
                 }
                 return SelectableOptionWidget(
-                  value: e,
-                  isSelected: _selectedOption == e,
+                  value: e.text,
+                  isSelected: _selectedOption == e.text,
                   onOptionTapped: () {
                     if (isPollPendingToBeApproved) {
                       return;
                     }
                     setState(() {
-                      if (_selectedOption == e) {
+                      if (_selectedOption == e.text) {
                         _selectedOption = null;
                       } else {
-                        _selectedOption = e;
+                        _selectedOption = e.text;
                       }
                     });
                   },
@@ -104,7 +104,7 @@ class _PollCardState extends State<PollCard> {
                     _isSubmitting = false;
                   });
                 },
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             if (showApproveOrRejectButton)
               Row(
@@ -122,7 +122,7 @@ class _PollCardState extends State<PollCard> {
                           _isSubmitting = false;
                         });
                       },
-                      child: Text('Approve'),
+                      child: const Text('Approve'),
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -139,7 +139,7 @@ class _PollCardState extends State<PollCard> {
                           _isSubmitting = false;
                         });
                       },
-                      child: Text('Reject'),
+                      child: const Text('Reject'),
                     ),
                   ),
                 ],
@@ -177,7 +177,7 @@ class SelectableOptionWidget extends StatelessWidget {
           ),
           if (isSelected) ...[
             const SizedBox(width: 8),
-            Icon(Icons.check),
+            const Icon(Icons.check),
           ],
         ],
       ),
