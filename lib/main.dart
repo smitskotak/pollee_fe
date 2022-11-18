@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pollee/repositories/polls_repository.dart';
 import 'package:pollee/repositories/user_repository.dart';
 import 'package:pollee/routes.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (_) => UserRepository(),
+    return MultiProvider(
+      providers: [
+        Provider<UserRepository>(create: (_) => UserRepository()),
+        Provider<PollsRepository>(create: (_) => PollsRepository()),
+      ],
       child: MaterialApp(
         title: 'Pollee - Roll & Collect polls',
         theme: ThemeData(

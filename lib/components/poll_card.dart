@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pollee/models/poll/poll.dart';
 import 'package:pollee/repositories/user_repository.dart';
@@ -43,6 +44,7 @@ class _PollCardState extends State<PollCard> {
     final isUserAdmin = context.read<UserRepository>().isUserAdmin;
     final showApproveOrRejectButton =
         isPollPendingToBeApproved && isUserAdmin && !_isSubmitting;
+    final showVotesCount = isPollExpired || hasUserVoted;
 
     return Card(
       margin: const EdgeInsets.symmetric(
@@ -144,6 +146,11 @@ class _PollCardState extends State<PollCard> {
                   ),
                 ],
               ),
+            const SizedBox(height: 8),
+            Text(
+              'Expires At: ${DateFormat('dd-MM-yyyy HH:mm').format(widget.poll.expirationDateTime)}',
+            ),
+            if (showVotesCount) Text('Votes: ${widget.poll.totalVotes}'),
           ],
         ),
       ),

@@ -1,14 +1,19 @@
 import 'package:mobx/mobx.dart';
 import 'package:pollee/models/poll/poll.dart';
+import 'package:pollee/repositories/polls_repository.dart';
 
 part 'polls_list_view_model.g.dart';
 
 class PollsListViewModel = _PollsListViewModel with _$PollsListViewModel;
 
 abstract class _PollsListViewModel with Store {
-  _PollsListViewModel() {
+  _PollsListViewModel({
+    required this.pollsRepository,
+  }) {
     fetch();
   }
+
+  final PollsRepository pollsRepository;
 
   @observable
   ObservableList<Poll> polls = ObservableList.of([]);
@@ -19,64 +24,46 @@ abstract class _PollsListViewModel with Store {
   @action
   Future<void> fetch() async {
     isLoading = true;
-    final pollsList = await getPolls();
+    try {
+      final pollsList = await pollsRepository.fetchPolls();
+      polls = ObservableList.of(pollsList);
+    } catch (err) {
+      print(err);
+    }
     isLoading = false;
-    polls = ObservableList.of(pollsList);
-  }
-
-  Future<void> fetchMore() async {
-    // TODO:
   }
 
   Future<void> submitPoll({
     required Poll poll,
     required String option,
   }) async {
-    // TODO:
-    await Future.delayed(Duration(seconds: 2));
+    try {
+      await pollsRepository.submitPoll(poll: poll, option: option);
+      await fetch();
+    } catch (err) {
+      print(err);
+    }
   }
 
   Future<void> approvePoll({
     required Poll poll,
   }) async {
-    // TODO:
-    await Future.delayed(Duration(seconds: 2));
+    try {
+      await pollsRepository.approvePoll(poll: poll);
+      await fetch();
+    } catch (err) {
+      print(err);
+    }
   }
 
   Future<void> rejectPoll({
     required Poll poll,
   }) async {
-    // TODO:
-    await Future.delayed(Duration(seconds: 2));
+    try {
+      await pollsRepository.rejectPoll(poll: poll);
+      await fetch();
+    } catch (err) {
+      print(err);
+    }
   }
-}
-
-Future<List<Poll>> getPolls() async {
-  await Future.delayed(const Duration(seconds: 2));
-  return [
-    Poll(
-      id: '1',
-      question: 'What is weekend look like?',
-      choices: [
-        Choice(text: 'Movies', voteCount: 18),
-        Choice(text: 'Sports', voteCount: 2),
-      ],
-      status: 'PUBLISHED',
-      expirationDateTime: DateTime(2022, 11, 23),
-      selectedChoice: 'Movies',
-      totalVotes: 20,
-    ),
-    Poll(
-      id: '2',
-      question: 'What is weekend look like?',
-      choices: [
-        Choice(text: 'Movies', voteCount: 8),
-        Choice(text: 'Sports', voteCount: 2),
-        Choice(text: 'Leisure', voteCount: 2),
-      ],
-      status: 'PUBLISHED',
-      expirationDateTime: DateTime(2022, 11, 23),
-      totalVotes: 23,
-    ),
-  ];
 }

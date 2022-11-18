@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pollee/components/poll_card.dart';
+import 'package:pollee/repositories/polls_repository.dart';
 import 'package:pollee/screens/polls_list/polls_list_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,9 @@ class PollsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (_) => PollsListViewModel(),
+      create: (_) => PollsListViewModel(
+        pollsRepository: context.read<PollsRepository>(),
+      ),
       child: const _PollsList(),
     );
   }
