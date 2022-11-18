@@ -1,6 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:pollee/models/poll/poll.dart';
 
 class PollsRepository {
+  PollsRepository({
+    required this.apiClient,
+  });
+
+  final Dio apiClient;
+
   Future<List<Poll>> fetchPolls() async {
     await Future.delayed(const Duration(seconds: 2));
     return [
