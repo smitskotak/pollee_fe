@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pollee/routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -16,6 +17,12 @@ class LoginScreen extends StatelessWidget {
           Text(
             'Hello World',
             style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed(RouteNames.dashboard);
+            },
+            child: const Text('Login'),
           ),
         ],
       ),
