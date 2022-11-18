@@ -35,6 +35,20 @@ abstract class _PollsListViewModel with Store {
     // TODO:
     await Future.delayed(Duration(seconds: 2));
   }
+
+  Future<void> approvePoll({
+    required Poll poll,
+  }) async {
+    // TODO:
+    await Future.delayed(Duration(seconds: 2));
+  }
+
+  Future<void> rejectPoll({
+    required Poll poll,
+  }) async {
+    // TODO:
+    await Future.delayed(Duration(seconds: 2));
+  }
 }
 
 Future<List<Poll>> getPolls() async {
@@ -60,7 +74,7 @@ Future<List<Poll>> getPolls() async {
         'Sports',
         'Leisure',
       ],
-      status: 'PUBLISHED',
+      status: 'PENDING',
       expiresOn: DateTime(2022, 11, 27),
       votesCount: 23,
     ),

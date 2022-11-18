@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pollee/models/poll/poll.dart';
+import 'package:pollee/repositories/user_repository.dart';
 import 'package:pollee/screens/polls_list/polls_list_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -28,8 +30,18 @@ class _PollCardState extends State<PollCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
+
+    final isPollExpired = widget.poll.expiresOn.isBefore(DateTime.now());
+    final hasUserVoted = widget.poll.selectedChoice != null;
+    final isPollPendingToBeApproved = widget.poll.status == 'PENDING';
+    final showSubmitButton = !isPollExpired &&
+        !isPollPendingToBeApproved &&
+        !hasUserVoted &&
+        !_isSubmitting;
+    final isUserAdmin = context.read<UserRepository>().isUserAdmin;
+    final showApproveOrRejectButton =
+        isPollPendingToBeApproved && isUserAdmin && !_isSubmitting;
 
     return Card(
       margin: const EdgeInsets.symmetric(
@@ -47,42 +59,91 @@ class _PollCardState extends State<PollCard> {
             ),
             const SizedBox(height: 8),
             ...widget.poll.options.map(
-              (e) => SelectableOptionWidget(
-                value: e,
-                isSelected: _selectedOption == e,
-                onOptionTapped: () {
-                  setState(() {
-                    if (_selectedOption == e) {
-                      _selectedOption = null;
-                    } else {
-                      _selectedOption = e;
+              (e) {
+                if (hasUserVoted) {
+                  return VotedOptionWidget(
+                    value: e,
+                    // TODO: consider choice vote count
+                    votesPercentages: 2 / widget.poll.votesCount,
+                  );
+                }
+                return SelectableOptionWidget(
+                  value: e,
+                  isSelected: _selectedOption == e,
+                  onOptionTapped: () {
+                    if (isPollPendingToBeApproved) {
+                      return;
                     }
-                  });
-                },
-              ),
-            ),
-            const SizedBox(height: 8),
-            if (_selectedOption != null)
-              if (_isSubmitting)
-                const Center(
-                  child: CircularProgressIndicator(),
-                )
-              else
-                ElevatedButton(
-                  onPressed: () async {
                     setState(() {
-                      _isSubmitting = true;
-                    });
-                    await context.read<PollsListViewModel>().submitPoll(
-                          poll: widget.poll,
-                          option: _selectedOption!,
-                        );
-                    setState(() {
-                      _isSubmitting = false;
+                      if (_selectedOption == e) {
+                        _selectedOption = null;
+                      } else {
+                        _selectedOption = e;
+                      }
                     });
                   },
-                  child: Text('Submit'),
-                ),
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+            if (_isSubmitting)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+            if (showSubmitButton)
+              ElevatedButton(
+                onPressed: () async {
+                  setState(() {
+                    _isSubmitting = true;
+                  });
+                  await context.read<PollsListViewModel>().submitPoll(
+                        poll: widget.poll,
+                        option: _selectedOption!,
+                      );
+                  setState(() {
+                    _isSubmitting = false;
+                  });
+                },
+                child: Text('Submit'),
+              ),
+            if (showApproveOrRejectButton)
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          _isSubmitting = true;
+                        });
+                        await context
+                            .read<PollsListViewModel>()
+                            .approvePoll(poll: widget.poll);
+                        setState(() {
+                          _isSubmitting = false;
+                        });
+                      },
+                      child: Text('Approve'),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          _isSubmitting = true;
+                        });
+                        await context
+                            .read<PollsListViewModel>()
+                            .rejectPoll(poll: widget.poll);
+                        setState(() {
+                          _isSubmitting = false;
+                        });
+                      },
+                      child: Text('Reject'),
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),
@@ -119,6 +180,36 @@ class SelectableOptionWidget extends StatelessWidget {
             Icon(Icons.check),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class VotedOptionWidget extends StatelessWidget {
+  const VotedOptionWidget({
+    super.key,
+    required this.value,
+    required this.votesPercentages,
+  });
+
+  final String value;
+
+  final double votesPercentages;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: LinearPercentIndicator(
+        lineHeight: 24,
+        percent: votesPercentages,
+        center: Text(
+          value,
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        barRadius: const Radius.circular(12),
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        progressColor: Theme.of(context).colorScheme.primaryContainer,
       ),
     );
   }
